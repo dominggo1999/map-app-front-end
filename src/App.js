@@ -1,16 +1,24 @@
-import Button from './components/shared/Button';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Navbar from './components/shared/Navbar';
 import './styles/main.scss';
+import Users from './components/pages/Users';
+import PageNotFound from './components/pages/PageNotFound';
 
 const App = () => {
   return (
     <>
       <Navbar />
-      <div className="center card">
-        <Button>View On Map</Button>
-        <Button className="btn-warning">Edit</Button>
-        <Button className="btn-danger">Delete</Button>
-      </div>
+      <Switch>
+        <Route
+          exact
+          path="/"
+        >
+          <Users />
+        </Route>
+        <Route>
+          <PageNotFound />
+        </Route>
+      </Switch>
     </>
   );
 };

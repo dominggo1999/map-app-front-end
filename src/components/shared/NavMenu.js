@@ -7,8 +7,9 @@ const NavMenu = ({ className, clickHandler }) => {
     >
       <li onClick={clickHandler}>
         <NavLink
-          to="/users"
+          to="/"
           activeClassName="link-active"
+          exact
         >All Users
         </NavLink>
       </li>
@@ -16,6 +17,7 @@ const NavMenu = ({ className, clickHandler }) => {
         <NavLink
           to="/:userId/places"
           activeClassName="link-active"
+          exact
         >My Places
         </NavLink>
       </li>
@@ -23,6 +25,7 @@ const NavMenu = ({ className, clickHandler }) => {
         <NavLink
           to="/:userId/addPlace"
           activeClassName="link-active"
+          exact
         >Add Place
         </NavLink>
       </li>
@@ -30,6 +33,7 @@ const NavMenu = ({ className, clickHandler }) => {
         <NavLink
           to="/authenticate"
           activeClassName="link-active"
+          exact
         >Authenticate
         </NavLink>
       </li>
