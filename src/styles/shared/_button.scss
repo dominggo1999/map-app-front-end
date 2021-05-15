@@ -1,0 +1,26 @@
+button {
+  padding: 10px 15px;
+  margin: 10px 5px;
+  border-radius: 5px;
+  border: 2px solid $primary;
+  color: $primary;
+  background: transparent;
+
+  &.btn-warning {
+    background: $primary;
+    border-color: $primary;
+    color: $w;
+  }
+
+  &.btn-danger {
+    background: $danger;
+    border-color: $danger;
+    color: $w;
+  }
+
+  &:hover {
+    background: $darkerGrey;
+    border-color: $darkerGrey;
+    color: $w;
+  }
+}

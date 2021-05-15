@@ -1,0 +1,25 @@
+// Typography
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,500&display=swap');
+
+$barlow: 'Barlow', sans-serif;
+$playfair: 'Playfair Display', serif;
+
+// Color
+$primary: #ff0055;
+$secondary: #f8df00;
+$danger: #830000;
+$darkBlue: #2a006e;
+$darkerGrey: #292929;
+$darkGrey: #4d4d4d;
+$midGrey: #9ba4b4;
+$lightGrey: #cccccc;
+$w: #fff;
+$b: #000;
+
+// Viewport size
+$xs: 0;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+$xxl: 1400px;

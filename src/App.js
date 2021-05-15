@@ -1,25 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import Button from './components/shared/Button';
+import Navbar from './components/shared/Navbar';
+import './styles/main.scss';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+      <div className="center card">
+        <Button>View On Map</Button>
+        <Button className="btn-warning">Edit</Button>
+        <Button className="btn-danger">Delete</Button>
+      </div>
+    </>
   );
-}
+};
 
 export default App;

@@ -1,0 +1,137 @@
+nav {
+  background: $primary;
+  padding: 15px 0;
+  position: relative;
+
+  .backdrop {
+    display: none;
+  }
+
+  .container {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-brand {
+    color: $w;
+    font-size: 30px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .hamburger-menu-icon {
+    display: none;
+  }
+
+  .nav-menu {
+    display: flex;
+    position: relative;
+    z-index: 1000;
+  }
+
+  .nav-menu.sidebar {
+    display: none;
+  }
+
+  .nav-menu li a {
+    text-decoration: none;
+    color: $w;
+    padding: 15px 10px;
+    font-size: 18px;
+    border: 1px solid transparent;
+
+    &.link-active {
+      border-color: $b;
+      background: $secondary;
+      color: $b;
+      border-radius: 2px;
+    }
+  }
+}
+
+@media screen and (max-width: $md) {
+  nav {
+    .backdrop {
+      display: block;
+      position: absolute;
+      z-index: 500;
+      top: 0;
+      left: 0;
+      background: $b;
+      opacity: 0.4;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+    }
+
+    .hamburger-menu-icon {
+      display: block;
+    }
+
+    .hamburger-menu-icon {
+      cursor: pointer;
+      svg {
+        fill: $w;
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    //Hide main navbar
+    .nav-menu {
+      display: none;
+    }
+
+    //Show side navbar
+    .nav-menu.sidebar {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: absolute;
+      z-index: 1000;
+      background: $w;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      min-height: 600px;
+    }
+
+    .nav-menu li {
+      text-align: center;
+      padding: 0 70px;
+    }
+
+    .nav-menu li a {
+      color: $b;
+
+      &.link-active {
+        border-color: $b;
+        background: $secondary;
+        color: $b;
+        border-radius: 2px;
+      }
+    }
+
+    // Animation
+    .slide-in-left-enter {
+      transform: translateX(-100%);
+    }
+
+    .slide-in-left-enter-active {
+      transform: translateX(0);
+      opacity: 1;
+      transition: all 200ms;
+    }
+
+    .slide-in-left-exit {
+      transform: translateX(0%);
+      opacity: 1;
+    }
+
+    .slide-in-left-exit-active {
+      transform: translateX(-100%);
+      opacity: 0;
+      transition: all 200ms;
+    }
+  }
+}
