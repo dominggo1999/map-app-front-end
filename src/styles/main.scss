@@ -6,8 +6,16 @@
 @import './typography';
 
 // Shared
-@import './shared/card.scss';
-@import './shared/button.scss';
-@import './shared/navbar.scss';
+@import './shared/card';
+@import './shared/button';
+@import './shared/navbar';
+@import './shared/avatar';
+@import './shared/backdrop';
+@import './shared/user-list';
+@import './shared/user-card';
+@import './shared/place-list';
+@import './shared/place-card';
+@import './shared/delete-modal';
+@import './shared/map-modal';
 
 // Pages

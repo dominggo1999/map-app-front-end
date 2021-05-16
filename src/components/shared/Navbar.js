@@ -4,6 +4,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { CSSTransition } from 'react-transition-group';
 import NavMenu from './NavMenu';
 import { toggleSideNavbar, hideSideNavbar } from '../../redux/navbar/navbarActions';
+import Backdrop from './Backdrop';
 
 const Navbar = () => {
   const displaySideNavbar = useSelector((state) => state.navbar.displaySideNavbar);
@@ -11,14 +12,8 @@ const Navbar = () => {
 
   return (
     <nav>
-
       {displaySideNavbar && (
-      <div
-        role="button"
-        className="backdrop"
-        onClick={() => dispatch(hideSideNavbar())}
-      >
-      </div>
+        <Backdrop clickHandler={() => dispatch(hideSideNavbar())} />
       )}
 
       <div className="container">

@@ -1,0 +1,49 @@
+.map-modal {
+  position: fixed;
+  z-index: 5000;
+  background: $w;
+  margin: 0 auto;
+  left: 50%;
+  top: 50%;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  width: 60%;
+}
+
+$mapModalPrefix: 'map-modal__';
+
+.#{$mapModalPrefix} {
+  &header,
+  &address {
+    padding: 20px;
+    font-family: $barlow;
+  }
+
+  &header {
+    background: $darkBlue;
+    color: $w;
+    font-size: 25px;
+  }
+
+  &address {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  &buttons {
+    padding: 20px;
+  }
+
+  &map {
+    .leaflet-container {
+      height: 300px;
+    }
+
+    .leaflet-div-icon {
+      border: none;
+      background: none;
+    }
+  }
+}

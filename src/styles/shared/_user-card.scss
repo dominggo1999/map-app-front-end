@@ -1,0 +1,44 @@
+.user-card__link {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: $darkerGrey;
+  font-family: $barlow;
+  cursor: pointer;
+  padding: 20px;
+
+  .user-card__left {
+    padding-right: 20px;
+  }
+
+  .user-card__name {
+    color: $secondary;
+    font-size: 23px;
+  }
+
+  .user-card__places {
+    font-size: 20px;
+    color: $w;
+  }
+}
+
+@media screen and (max-width: $sm) {
+  .user-card__link {
+    width: 90%;
+  }
+
+  .user-card {
+    .user-card__name {
+      font-size: 18px;
+    }
+
+    .user-card__places {
+      font-size: 16px;
+    }
+  }
+}

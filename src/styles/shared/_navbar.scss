@@ -23,12 +23,14 @@ nav {
     display: none;
   }
 
+  // Show main navbar on large screen size
   .nav-menu {
     display: flex;
     position: relative;
     z-index: 1000;
   }
 
+  // Hide sidebar on large screen size
   .nav-menu.sidebar {
     display: none;
   }
@@ -53,15 +55,6 @@ nav {
   nav {
     .backdrop {
       display: block;
-      position: absolute;
-      z-index: 500;
-      top: 0;
-      left: 0;
-      background: $b;
-      opacity: 0.4;
-      width: 100%;
-      height: 100vh;
-      min-height: 600px;
     }
 
     .hamburger-menu-icon {
@@ -87,7 +80,7 @@ nav {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      position: absolute;
+      position: fixed;
       z-index: 1000;
       background: $w;
       left: 0;

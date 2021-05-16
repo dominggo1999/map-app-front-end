@@ -1,7 +1,7 @@
 import navbarActionTypes from './navbarActionTypes';
 
 const initialState = {
-  displaySideNavbar: true,
+  displaySideNavbar: false,
 };
 
 const navbarReducer = (state = initialState, action) => {

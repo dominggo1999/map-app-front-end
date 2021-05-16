@@ -24,3 +24,9 @@ button {
     color: $w;
   }
 }
+
+@media screen and (max-width: $md) {
+  button {
+    font-size: 16px;
+  }
+}
