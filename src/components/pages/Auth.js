@@ -6,14 +6,9 @@ import * as Yup from 'yup';
 import FormButton from '../shared/FormButton';
 import Button from '../shared/Button';
 
-const initLogin = {
+const initValues = {
   email: '',
   password: '',
-  username: '',
-};
-
-const initSignUp = {
-  ...initLogin,
   username: '',
 };
 
@@ -30,20 +25,21 @@ const signUpValidationSchema = {
 const Auth = () => {
   const [signingIn, setSigningIn] = useState(true);
   const [validationSchema, setValidationSchema] = useState(Yup.object(loginValidationSchema));
-  const [initialValues, setInitialValues] = useState(initLogin);
+  const [initialValues, setInitialValues] = useState(initValues);
 
-  const switchStatus = () => {
+  const switchStatus = (resetForm) => {
     setSigningIn(!signingIn);
+    resetForm(initValues);
   };
 
   useEffect(() => {
     if(signingIn) {
       setValidationSchema(Yup.object(loginValidationSchema));
-      setInitialValues(initLogin);
     } else {
       setValidationSchema(Yup.object(signUpValidationSchema));
-      setInitialValues(initSignUp);
     }
+
+    setInitialValues(initValues);
   }, [signingIn]);
 
   const onSubmit = (values, { resetForm }) => {
@@ -65,7 +61,7 @@ const Auth = () => {
             validationSchema={validationSchema}
             onSubmit={onSubmit}
           >
-            {({ isValid, touched }) => (
+            {({ isValid, touched, resetForm }) => (
               <Form>
                 {!signingIn
                 && (
@@ -115,7 +111,7 @@ const Auth = () => {
                 <div className="buttons">
                   <Button
                     type="button"
-                    onClick={switchStatus}
+                    onClick={() => switchStatus(resetForm)}
                   >Switch To {signingIn ? 'Sign Up' : 'Sign In'}
                   </Button>
                 </div>
