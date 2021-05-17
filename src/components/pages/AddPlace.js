@@ -2,24 +2,31 @@ import {
   useFormik, Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
 import Button from '../shared/Button';
-import LocationSearch from '../shared/LocationSearch';
+import { getCoordinate } from '../../utils/getCoordinate';
 
 const AddPlace = () => {
   const initialValues = {
     title: '',
     description: '',
     address: '',
+    googleMapURL: '',
   };
 
   const validationSchema = Yup.object({
     title: Yup.string().min(3, 'Too Short!').required('Title is required'),
     description: Yup.string().min(3, 'Too Short!').required('Description is required'),
     address: Yup.string().min(3, 'Too Short!').required('Address is required'),
+    googleMapURL: Yup.string().min(20).required('Please enter website'),
   });
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, { resetForm }) => {
     console.log(values);
+
+    console.log(getCoordinate(values.googleMapURL));
+
+    resetForm(initialValues);
   };
 
   const formik = useFormik({
@@ -50,7 +57,8 @@ const AddPlace = () => {
                 <div className="error-message">
                   <ErrorMessage name="title" />
                 </div>
-                <label htmlFor="Description">Description</label>
+
+                <label htmlFor="description">Description</label>
                 <Field
                   as="textarea"
                   type="text"
@@ -62,7 +70,8 @@ const AddPlace = () => {
                 <div className="error-message">
                   <ErrorMessage name="description" />
                 </div>
-                <label htmlFor="Address">Address</label>
+
+                <label htmlFor="address">Address</label>
                 <Field
                   type="text"
                   placeholder="Address"
@@ -74,18 +83,29 @@ const AddPlace = () => {
                   <ErrorMessage name="address" />
                 </div>
 
-                <LocationSearch />
+                <label htmlFor="googleMapURL">Google Map URL</label>
+                <Field
+                  type="text"
+                  placeholder="Google Map URL"
+                  name="googleMapURL"
+                  id="googleMapURL"
+                  required
+                />
+                <div className="error-message">
+                  <ErrorMessage name="googleMapURL" />
+                </div>
 
                 <div className="add-place__buttons">
-                  <Button
-                    type="submit"
-                    className={`btn-${isValid && Object.keys(touched).length > 0 ? 'warning' : 'disabled'}`}
-                  >Submit
-                  </Button>
+                  <Link to="/:userId/places">
+                    <Button
+                      type="submit"
+                      className={`btn-${isValid && Object.keys(touched).length > 0 ? 'warning' : 'disabled'}`}
+                    >Submit
+                    </Button>
+                  </Link>
                 </div>
               </Form>
             )}
-
           </Formik>
         </div>
       </div>
