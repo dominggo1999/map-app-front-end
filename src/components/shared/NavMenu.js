@@ -23,7 +23,7 @@ const NavMenu = ({ className, clickHandler }) => {
       </li>
       <li onClick={clickHandler}>
         <NavLink
-          to="/:userId/addPlace"
+          to="/addPlace"
           activeClassName="link-active"
           exact
         >Add Place

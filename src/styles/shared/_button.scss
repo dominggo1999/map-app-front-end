@@ -18,6 +18,13 @@ button {
     color: $w;
   }
 
+  &.btn-disabled {
+    pointer-events: none;
+    background: $lightGrey;
+    color: $darkerGrey;
+    border-color: $lightGrey;
+  }
+
   &:hover {
     background: $darkerGrey;
     border-color: $darkerGrey;

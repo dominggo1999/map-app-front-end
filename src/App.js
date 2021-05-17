@@ -3,6 +3,7 @@ import Navbar from './components/shared/Navbar';
 import './styles/main.scss';
 import User from './components/pages/User';
 import UserPlaces from './components/pages/UserPlaces';
+import AddPlace from './components/pages/AddPlace';
 import PageNotFound from './components/pages/PageNotFound';
 
 const App = () => {
@@ -24,9 +25,17 @@ const App = () => {
         </Route>
         <Route
           exact
-          path="/authenticate"
+          path="/addPlace"
         >
-          teste
+          <AddPlace />
+        </Route>
+        <Route
+          exact
+          path="/form"
+        >
+          <>
+            <AddPlace />
+          </>
         </Route>
         <Route>
           <PageNotFound />

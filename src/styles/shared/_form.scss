@@ -1,0 +1,82 @@
+.my-form {
+  padding: 20px 0;
+
+  .container {
+    flex-direction: column;
+  }
+
+  .card {
+    padding: 20px;
+    width: 60%;
+    min-width: 400;
+    position: relative;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    font-family: $barlow;
+  }
+
+  label {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  input,
+  textarea {
+    padding: 5px;
+    font-size: 18px;
+    max-width: 100%;
+    min-width: 100%;
+  }
+
+  textarea {
+    min-height: 150px;
+  }
+
+  .error-message {
+    min-height: 30px;
+    font-family: $barlow;
+    color: $primary;
+    font-size: 18px;
+  }
+  .select-search {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .select-search__options {
+    background: $w;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 100%;
+    max-height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 1px $primary solid;
+    border-top-color: none;
+
+    button {
+      border: none;
+      font-family: $barlow;
+      text-transform: capitalize;
+      width: 100%;
+      text-align: left;
+    }
+  }
+
+  .add-place__buttons button {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: $sm) {
+  .my-form {
+    .card {
+      width: 100%;
+    }
+  }
+}

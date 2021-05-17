@@ -1,4 +1,6 @@
-const Button = ({ children, clickHandler, className }) => {
+const Button = ({
+  children, clickHandler, className, ...restProps
+}) => {
   /*
 warning,
 danger
@@ -8,6 +10,7 @@ danger
     <button
       onClick={clickHandler}
       className={className}
+      {...restProps}
     >
       {children}
     </button>
