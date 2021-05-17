@@ -34,6 +34,7 @@
 
   textarea {
     min-height: 150px;
+    font-family: $barlow;
   }
 
   .error-message {
@@ -68,7 +69,7 @@
     }
   }
 
-  .add-place__buttons button {
+  .form-buttons button {
     margin-left: 0;
   }
 }

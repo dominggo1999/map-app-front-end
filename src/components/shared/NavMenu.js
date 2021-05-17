@@ -31,7 +31,7 @@ const NavMenu = ({ className, clickHandler }) => {
       </li>
       <li onClick={clickHandler}>
         <NavLink
-          to="/authenticate"
+          to="/auth"
           activeClassName="link-active"
           exact
         >Authenticate

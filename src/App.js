@@ -4,6 +4,8 @@ import './styles/main.scss';
 import User from './components/pages/User';
 import UserPlaces from './components/pages/UserPlaces';
 import AddPlace from './components/pages/AddPlace';
+import EditPlace from './components/pages/EditPlace';
+import Auth from './components/pages/Auth';
 import PageNotFound from './components/pages/PageNotFound';
 
 const App = () => {
@@ -31,11 +33,15 @@ const App = () => {
         </Route>
         <Route
           exact
-          path="/form"
+          path="/:userId/:placeId"
         >
-          <>
-            <AddPlace />
-          </>
+          <EditPlace />
+        </Route>
+        <Route
+          exact
+          path="/auth"
+        >
+          <Auth />
         </Route>
         <Route>
           <PageNotFound />

@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 import Button from '../shared/Button';
 import { getCoordinate } from '../../utils/getCoordinate';
+import FormButton from '../shared/FormButton';
 
 const AddPlace = () => {
   const initialValues = {
@@ -95,15 +96,11 @@ const AddPlace = () => {
                   <ErrorMessage name="googleMapURL" />
                 </div>
 
-                <div className="add-place__buttons">
-                  <Link to="/:userId/places">
-                    <Button
-                      type="submit"
-                      className={`btn-${isValid && Object.keys(touched).length > 0 ? 'warning' : 'disabled'}`}
-                    >Submit
-                    </Button>
-                  </Link>
-                </div>
+                <FormButton
+                  isValid={isValid && Object.keys(touched).length > 0}
+                  redirectTo="/:userId/places"
+                />
+
               </Form>
             )}
           </Formik>
