@@ -42,14 +42,29 @@ const Auth = () => {
     setInitialValues(initValues);
   }, [signingIn]);
 
-  const onSubmit = (values, { resetForm }) => {
+  const onSubmit = async (values, { resetForm }) => {
     if(signingIn) {
       // handle sign in
-      console.log(values.email, values.password);
+      console.log(values);
     } else {
       // handle sign up
-      console.log(values);
+      const response = await fetch('http://localhost:5000/api/users/signUp', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: values.username,
+          email: values.email,
+          password: values.password,
+        }),
+      });
+      const responseData = await response.json();
+
+      console.log(response);
     }
+
+    resetForm(initValues);
   };
 
   return (

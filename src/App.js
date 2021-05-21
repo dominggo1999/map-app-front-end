@@ -1,3 +1,4 @@
+import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Navbar from './components/shared/Navbar';
 import './styles/main.scss';
@@ -9,6 +10,37 @@ import Auth from './components/pages/Auth';
 import PageNotFound from './components/pages/PageNotFound';
 
 const App = () => {
+  const isLogin = useSelector((state) => state.auth.isLogin);
+
+  if(!isLogin) {
+    <>
+      <Navbar />
+      <Switch>
+        <Route
+          exact
+          path="/"
+        >
+          <User />
+        </Route>
+        <Route
+          exact
+          path="/:userId/places"
+        >
+          <UserPlaces />
+        </Route>
+        <Route
+          exact
+          path="/auth"
+        >
+          <Auth />
+        </Route>
+        <Route>
+          <PageNotFound />
+        </Route>
+      </Switch>
+    </>;
+  }
+
   return (
     <>
       <Navbar />
