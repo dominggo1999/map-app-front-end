@@ -3,8 +3,12 @@ import {
   useFormik, Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import * as Yup from 'yup';
+import { useSelector, useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import FormButton from '../shared/FormButton';
 import Button from '../shared/Button';
+import { userLogin } from '../../redux/auth/authActions';
+import ErrorModal from '../shared/ErrorModal';
 
 const initValues = {
   email: '',
@@ -26,6 +30,10 @@ const Auth = () => {
   const [signingIn, setSigningIn] = useState(true);
   const [validationSchema, setValidationSchema] = useState(Yup.object(loginValidationSchema));
   const [initialValues, setInitialValues] = useState(initValues);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const isLogin = useSelector((state) => state.auth.isLogin);
+  const dispatch = useDispatch();
 
   const switchStatus = (resetForm) => {
     setSigningIn(!signingIn);
@@ -42,43 +50,86 @@ const Auth = () => {
     setInitialValues(initValues);
   }, [signingIn]);
 
-  const onSubmit = async (values, { resetForm }) => {
-    if(signingIn) {
-      // handle sign in
-      console.log(values);
-    } else {
-      // handle sign up
-      const response = await fetch('http://localhost:5000/api/users/signUp', {
+  const signIn = async (values, resetForm) => {
+    try {
+      const response = await fetch('http://localhost:5000/api/users/login', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
         },
         body: JSON.stringify({
-          username: values.username,
           email: values.email,
           password: values.password,
         }),
       });
+
       const responseData = await response.json();
-
-      console.log(response);
+      if(!response.ok) {
+        setError(responseData.message || 'Something went wrong, please try again');
+      } else {
+        dispatch(userLogin());
+      }
+    } catch (err) {
+      setError(err.message || 'Something went wrong, please try again');
     }
-
-    resetForm(initValues);
   };
 
+  const onSubmit = async (values, { resetForm }) => {
+    if(signingIn) {
+      // handle sign in
+      signIn(values, resetForm);
+    } else {
+      // handle sign up
+      try {
+        const response = await fetch('http://localhost:5000/api/users/signUp', {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: values.username,
+            email: values.email,
+            password: values.password,
+          }),
+        });
+        const responseData = await response.json();
+
+        if(!response.ok) {
+          setError(responseData.message || 'Something went wrong, please try again');
+        }else {
+          setError('');
+          dispatch(userLogin());
+        }
+      } catch (err) {
+        setError(err.message || 'Something went wrong, please try again');
+      }
+    }
+  };
+
+  if(isLogin) {
+    return <Redirect to="/" />;
+  }
+
   return (
-    <div className="auth my-form">
-      <div className="container">
-        <div className="card">
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
-          >
-            {({ isValid, touched, resetForm }) => (
-              <Form>
-                {!signingIn
+    <>
+      {error && (
+        <ErrorModal
+          errorMessage={error}
+          hideModal={() => setError('')}
+        />
+      )}
+      <div className="auth my-form">
+        {isLoading && <h1>Loading...</h1>}
+        <div className="container">
+          <div className="card">
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={onSubmit}
+            >
+              {({ isValid, touched, resetForm }) => (
+                <Form>
+                  {!signingIn
                 && (
                 <>
 
@@ -95,47 +146,47 @@ const Auth = () => {
                 </>
                 )}
 
-                <label htmlFor="email">Email</label>
-                <Field
-                  type="email"
-                  placeholder="Email"
-                  id="email"
-                  name="email"
-                />
-                <div className="error-message">
-                  <ErrorMessage name="email" />
-                </div>
+                  <label htmlFor="email">Email</label>
+                  <Field
+                    type="email"
+                    placeholder="Email"
+                    id="email"
+                    name="email"
+                  />
+                  <div className="error-message">
+                    <ErrorMessage name="email" />
+                  </div>
 
-                <label htmlFor="email">Password</label>
-                <Field
-                  type="password"
-                  placeholder="Password"
-                  id="password"
-                  name="password"
-                />
-                <div className="error-message">
-                  <ErrorMessage name="password" />
-                </div>
+                  <label htmlFor="email">Password</label>
+                  <Field
+                    type="password"
+                    placeholder="Password"
+                    id="password"
+                    name="password"
+                  />
+                  <div className="error-message">
+                    <ErrorMessage name="password" />
+                  </div>
 
-                <FormButton
-                  isValid={isValid && Object.keys(touched).length > 0}
-                  redirectTo="/:userId/places"
-                  content={signingIn ? 'Sign In' : 'Sign Up'}
-                />
+                  <FormButton
+                    isValid={isValid && Object.keys(touched).length > 0}
+                    content={signingIn ? 'Sign In' : 'Sign Up'}
+                  />
 
-                <div className="buttons">
-                  <Button
-                    type="button"
-                    onClick={() => switchStatus(resetForm)}
-                  >Switch To {signingIn ? 'Sign Up' : 'Sign In'}
-                  </Button>
-                </div>
-              </Form>
-            )}
-          </Formik>
+                  <div className="buttons">
+                    <Button
+                      type="button"
+                      onClick={() => switchStatus(resetForm)}
+                    >Switch To {signingIn ? 'Sign Up' : 'Sign In'}
+                    </Button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

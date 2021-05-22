@@ -1,6 +1,7 @@
-.delete-modal {
+.delete-modal,
+.error-modal {
   position: fixed;
-  z-index: 5000;
+  z-index: 9000;
   background: $w;
   margin: 0 auto;
   left: 50%;
@@ -12,8 +13,10 @@
 }
 
 $deleteModalPrefix: 'delete-modal__';
+$errorModalPrefix: 'error-modal__';
 
-.#{$deleteModalPrefix} {
+.#{$deleteModalPrefix},
+.#{$errorModalPrefix} {
   &header,
   &body {
     padding: 20px;
@@ -40,7 +43,8 @@ $deleteModalPrefix: 'delete-modal__';
 }
 
 @media screen and (max-width: $md) {
-  .delete-modal {
+  .delete-modal,
+  .error-modal {
     width: 80%;
   }
 }

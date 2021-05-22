@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Button from './Button';
 
-const FormButton = ({ isValid, redirectTo, content }) => {
+const FormButton = ({ isValid, content }) => {
   return (
     <>
       <div className="form-buttons">
@@ -15,14 +15,12 @@ const FormButton = ({ isValid, redirectTo, content }) => {
               </Button>
             )
             : (
-
               <Button
                 type="submit"
                 className="btn-warning"
               >
                 {content || 'Submit'}
               </Button>
-
             )
         }
       </div>

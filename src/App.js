@@ -13,32 +13,34 @@ const App = () => {
   const isLogin = useSelector((state) => state.auth.isLogin);
 
   if(!isLogin) {
-    <>
-      <Navbar />
-      <Switch>
-        <Route
-          exact
-          path="/"
-        >
-          <User />
-        </Route>
-        <Route
-          exact
-          path="/:userId/places"
-        >
-          <UserPlaces />
-        </Route>
-        <Route
-          exact
-          path="/auth"
-        >
-          <Auth />
-        </Route>
-        <Route>
-          <PageNotFound />
-        </Route>
-      </Switch>
-    </>;
+    return (
+      <>
+        <Navbar />
+        <Switch>
+          <Route
+            exact
+            path="/"
+          >
+            <User />
+          </Route>
+          <Route
+            exact
+            path="/:userId/places"
+          >
+            <UserPlaces />
+          </Route>
+          <Route
+            exact
+            path="/auth"
+          >
+            <Auth />
+          </Route>
+          <Route>
+            <PageNotFound />
+          </Route>
+        </Switch>
+      </>
+    );
   }
 
   return (
