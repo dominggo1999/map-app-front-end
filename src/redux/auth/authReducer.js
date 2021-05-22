@@ -2,6 +2,7 @@ import authActionTypes from './authActionTypes';
 
 const initialState = {
   isLogin: true,
+  userID: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -10,11 +11,13 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLogin: true,
+        userID: action.payload,
       };
     case authActionTypes.USER_LOGOUT:
       return {
         ...state,
         isLogin: false,
+        userID: null,
       };
     default:
       return state;

@@ -4,7 +4,12 @@ import { userLogout } from '../../redux/auth/authActions';
 
 const NavMenu = ({ className, clickHandler }) => {
   const isLogin = useSelector((state) => state.auth.isLogin);
+  const user = useSelector((state) => state.auth.userID);
   const dispatch = useDispatch();
+  const logout = () => {
+    dispatch(userLogout());
+    clickHandler();
+  };
 
   if(!isLogin) {
     return (
@@ -43,7 +48,7 @@ const NavMenu = ({ className, clickHandler }) => {
       </li>
       <li onClick={clickHandler}>
         <NavLink
-          to="/:userId/places"
+          to={`/${user}/places`}
           activeClassName="link-active"
           exact
         >My Places
@@ -57,7 +62,7 @@ const NavMenu = ({ className, clickHandler }) => {
         >Add Place
         </NavLink>
       </li>
-      <li onClick={() => dispatch(userLogout())}>
+      <li onClick={logout}>
         <NavLink
           to="/"
           exact

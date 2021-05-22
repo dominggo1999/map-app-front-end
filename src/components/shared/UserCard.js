@@ -1,14 +1,14 @@
 import Avatar from './Avatar';
 
-const UserCard = ({ name, image, places }) => {
+const UserCard = ({ username, image, places }) => {
   return (
     <div className="user-card card">
       <div className="user-card__left">
         <Avatar image={image} />
       </div>
       <div className="user-card__right">
-        <div className="user-card__name">{name}</div>
-        <div className="user-card__places">{places} Places</div>
+        <div className="user-card__name">{username}</div>
+        <div className="user-card__places">{places.length} {places.length > 0 ? 'places' : 'place'}</div>
       </div>
     </div>
   );

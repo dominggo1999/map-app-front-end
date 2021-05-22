@@ -1,32 +1,27 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import UserList from '../shared/UserList';
 
-const dummyUsers = [
-  {
-    id: 'u1',
-    name: 'Max Schwarz',
-    image:
-        'https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-    places: 3,
-  },
-  {
-    id: 'u2',
-    name: 'John Doe',
-    image:
-        'https://images.pexels.com/photos/4330308/pexels-photo-4330308.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-    places: 3,
-  },
-];
-
 const Users = () => {
+  const [loadedUser, setLoadedUser] = useState();
+  const [loading, setLoading] = useState(false);
+
   // Get data from database first and pass data to userlist as props
   useEffect(() => {
-  // Call api end point here
+    setLoading(true);
+    const getAllUsers = async () => {
+      const response = await fetch('http://localhost:5000/api/users/');
+      const responseData = await response.json();
+      setLoadedUser(responseData.users);
+      setLoading(false);
+    };
+
+    getAllUsers();
   }, []);
 
   return (
     <>
-      <UserList users={dummyUsers} />
+      {loading && <h1>Loading...</h1>}
+      {!loading && loadedUser && <UserList users={loadedUser} />}
     </>
   );
 };

@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Button from './Button';
 import DeleteModal from './DeleteModal';
 import MapModal from './MapModal';
-
-// Just a dummy data
-const isLogin = true;
 
 const PlaceCard = ({
   title, description, imageUrl, address, location, creator,
 }) => {
   const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
   const [displayMapModal, setDisplayMapModal] = useState(false);
+  const userID = useSelector((state) => state.auth.userID);
+
+  const canEdit = userID === creator;
 
   const showDeleteModal = () => {
     setDisplayDeleteModal(true);
@@ -71,7 +72,7 @@ const PlaceCard = ({
           <div className="place-card__buttons">
             <Button clickHandler={showMapModal}>View On Map</Button>
             {
-            isLogin && (
+            canEdit && (
               <>
                 <Link to="/:userId/:placeId">
                   <Button className="btn-warning">Edit</Button>

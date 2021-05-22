@@ -67,7 +67,7 @@ const Auth = () => {
       if(!response.ok) {
         setError(responseData.message || 'Something went wrong, please try again');
       } else {
-        dispatch(userLogin());
+        dispatch(userLogin(responseData.user));
       }
     } catch (err) {
       setError(err.message || 'Something went wrong, please try again');

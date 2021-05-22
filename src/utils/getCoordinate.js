@@ -10,5 +10,5 @@ export const getCoordinate = (url) => {
   }
   const latitude = latLong[0];
 
-  return [latitude, longitude];
+  return [parseFloat(latitude), parseFloat(longitude)];
 };
