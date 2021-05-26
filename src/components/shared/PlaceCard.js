@@ -4,11 +4,14 @@ import { useSelector } from 'react-redux';
 import Button from './Button';
 import DeleteModal from './DeleteModal';
 import MapModal from './MapModal';
+import ErrorModal from './ErrorModal';
 
 const PlaceCard = ({
-  title, description, imageUrl, address, location, creator,
+  title, description, imageUrl, address, location, creator, placeId, onDelete,
 }) => {
   const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [displayMapModal, setDisplayMapModal] = useState(false);
   const userID = useSelector((state) => state.auth.userID);
 
@@ -31,13 +34,43 @@ const PlaceCard = ({
   };
 
   // Deleting place from database
-  const deletePlace = () => {
+  const deletePlace = async () => {
+    setLoading(true);
     console.log('Deleting place');
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/places/${placeId}`, {
+        method: 'DELETE',
+      });
+
+      const responseData = response.json();
+
+      if(!response.ok) {
+        throw new Error(responseData.message);
+      }
+
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+
+    onDelete(placeId);
     setDisplayDeleteModal(false);
+    setLoading(false);
   };
 
   return (
     <>
+      {loading && <h1>Loading ...</h1>}
+      {
+        error && (
+        <ErrorModal
+          errorMessage={error}
+          hideModal={() => setError(null)}
+        />
+        )
+      }
       {
         displayDeleteModal
         && (
@@ -46,7 +79,8 @@ const PlaceCard = ({
           deleteButtonClickHandler={deletePlace}
         />
         )
-      }{
+      }
+      {
         displayMapModal
         && (
           <MapModal
@@ -74,7 +108,7 @@ const PlaceCard = ({
             {
             canEdit && (
               <>
-                <Link to="/:userId/:placeId">
+                <Link to={`/${userID}/${placeId}`}>
                   <Button className="btn-warning">Edit</Button>
                 </Link>
                 <Button

@@ -19,16 +19,25 @@ const UserPlaces = () => {
     };
 
     getAllPlacesByUserID();
-  }, []);
+  }, [userId]);
 
   if(userId === 'null' || userId === 'undefined') {
     history.push('/');
   }
 
+  const onDelete = (deletedPlaceId) => {
+    setLoadedPlace((prevPlace) => prevPlace.filter((place) => place.id !== deletedPlaceId));
+  };
+
   return (
     <>
       {loading && <h1>Loading...</h1>}
-      {!loading && loadedPlace && <PlaceList places={loadedPlace} />}
+      {!loading && loadedPlace && (
+      <PlaceList
+        places={loadedPlace}
+        onDelete={onDelete}
+      />
+      )}
     </>
   );
 };

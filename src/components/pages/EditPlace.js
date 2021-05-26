@@ -3,34 +3,50 @@ import {
   useFormik, Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
-import Button from '../shared/Button';
+import { useParams, useHistory } from 'react-router-dom';
 import FormButton from '../shared/FormButton';
+import ErrorModal from '../shared/ErrorModal';
 
-const dummyPlace = {
-  id: 'p1',
-  title: 'Empire State Building',
-  description: 'One of the most famous sky scrapers in the world!',
-  imageUrl:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
-  address: '20 W 34th St, New York, NY 10001',
-  location: {
-    lat: 40.7484405,
-    lng: -73.9878584,
-  },
-  creator: 'u1',
+const emptyForm = {
+  title: '',
+  description: '',
 };
+
 const EditPlace = () => {
   const [place, setPlace] = useState();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { placeId, userId } = useParams();
+  const history = useHistory();
+  const backToMyPlaces = () => {
+    history.push(`/${userId}/places`);
+  };
 
   useEffect(() => {
+    setLoading(true);
     // Get place data from api
+    const getPlaceById = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/places/${placeId}`);
+        const responseData = await response.json();
 
-    // Set place to data from database
-    setPlace({
-      title: dummyPlace.title,
-      description: dummyPlace.description,
-    });
+        if(!response.ok) {
+          throw new Error(responseData.message);
+        }else{
+          // Set place to data from database
+          setPlace({
+            title: responseData.place.title,
+            description: responseData.place.description,
+          });
+        }
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    getPlaceById();
   }, []);
 
   const validationSchema = Yup.object({
@@ -39,67 +55,104 @@ const EditPlace = () => {
   });
 
   const onSubmit = (values, { resetForm }) => {
-    console.log(values);
+    console.log('Test');
 
-    resetForm({
-      title: '',
-      description: '',
-    });
+    const updatePlace = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/places/${placeId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            title: values.title,
+            description: values.description,
+          }),
+        });
+
+        const responseData = await response.json();
+        if(!response.ok) {
+          throw new Error(responseData.message);
+        }else{
+          backToMyPlaces();
+        }
+
+        setLoading(false);
+      } catch (err) {
+        console.log(err.message);
+        setError(err);
+        setLoading(false);
+      }
+    };
+
+    updatePlace();
   };
 
-  if(!place) {
+  const hideModal = () => {
+    setError(null);
+    history.push('/');
+  };
+
+  if(loading) {
     return (
-      <div className="card">
-        <h1>Loading...</h1>
-      </div>
+      <h1>Loading...</h1>
     );
   }
 
   return (
-    <div className="edit-place my-form">
-      <div className="container">
-        <div className="card">
-          <Formik
-            initialValues={place}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
-          >
+    <>
+      {
+        error && (
+        <ErrorModal
+          errorMessage={error}
+          hideModal={hideModal}
+        />
+        )
+      }
+      <div className="edit-place my-form">
+        <div className="container">
+          <div className="card">
+            <Formik
+              initialValues={place}
+              validationSchema={validationSchema}
+              onSubmit={onSubmit}
+            >
 
-            {({ isValid, touched }) => (
-              <Form>
-                <label htmlFor="title">Title</label>
-                <Field
-                  type="text"
-                  id="title"
-                  name="title"
-                  placeholder="Title"
-                />
-                <div className="error-message">
-                  <ErrorMessage name="title" />
-                </div>
-                <label htmlFor="description">Description</label>
-                <Field
-                  as="textarea"
-                  type="text"
-                  id="description"
-                  name="description"
-                  placeholder="Description"
-                />
-                <div className="error-message">
-                  <ErrorMessage name="description" />
-                </div>
-                <FormButton
-                  isValid={isValid}
-                  redirectTo="/:userId/places"
-                />
+              {({ isValid }) => (
+                <Form>
+                  <label htmlFor="title">Title</label>
+                  <Field
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="Title"
+                  />
+                  <div className="error-message">
+                    <ErrorMessage name="title" />
+                  </div>
+                  <label htmlFor="description">Description</label>
+                  <Field
+                    as="textarea"
+                    type="text"
+                    id="description"
+                    name="description"
+                    placeholder="Description"
+                  />
+                  <div className="error-message">
+                    <ErrorMessage name="description" />
+                  </div>
+                  <FormButton
+                    isValid={isValid}
+                    cancel={backToMyPlaces}
+                  />
+                </Form>
+              )}
 
-              </Form>
-            )}
-
-          </Formik>
+            </Formik>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

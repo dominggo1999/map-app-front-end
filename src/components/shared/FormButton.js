@@ -1,7 +1,6 @@
-import { Link, Redirect } from 'react-router-dom';
 import Button from './Button';
 
-const FormButton = ({ isValid, content }) => {
+const FormButton = ({ isValid, content, cancel }) => {
   return (
     <>
       <div className="form-buttons">
@@ -22,6 +21,16 @@ const FormButton = ({ isValid, content }) => {
                 {content || 'Submit'}
               </Button>
             )
+        }
+        {
+          cancel && (
+          <Button
+            className="danger"
+            type="button"
+            clickHandler={cancel}
+          >Cancel
+          </Button>
+          )
         }
       </div>
     </>

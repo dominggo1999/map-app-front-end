@@ -158,7 +158,6 @@ const AddPlace = () => {
 
                   <FormButton
                     isValid={isValid && Object.keys(touched).length > 0}
-                    redirectTo="/:userId/places"
                   />
 
                 </Form>

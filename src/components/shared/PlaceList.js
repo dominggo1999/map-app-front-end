@@ -1,6 +1,6 @@
 import PlaceCard from './PlaceCard';
 
-const PlaceList = ({ places }) => {
+const PlaceList = ({ places, onDelete }) => {
   if(places.length === 0) {
     return (
       <div className="container">
@@ -19,6 +19,8 @@ const PlaceList = ({ places }) => {
               <PlaceCard
                 key={id}
                 {...restProps}
+                placeId={id}
+                onDelete={onDelete}
               />
             ))
           }

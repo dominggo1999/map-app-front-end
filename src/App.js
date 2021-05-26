@@ -10,7 +10,7 @@ import Auth from './components/pages/Auth';
 import PageNotFound from './components/pages/PageNotFound';
 
 const App = () => {
-  const isLogin = useSelector((state) => state.auth.isLogin);
+  const { isLogin } = useSelector((state) => state.auth);
 
   if(!isLogin) {
     return (
