@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import Button from '../shared/Button';
 import { getCoordinate } from '../../utils/getCoordinate';
 import FormButton from '../shared/FormButton';
 import ErrorModal from '../shared/ErrorModal';

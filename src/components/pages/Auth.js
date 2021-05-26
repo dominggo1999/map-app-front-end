@@ -5,16 +5,21 @@ import {
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { object, string, mixed } from 'yup';
 import FormButton from '../shared/FormButton';
 import Button from '../shared/Button';
 import { userLogin } from '../../redux/auth/authActions';
 import ErrorModal from '../shared/ErrorModal';
+import ImageUpload from '../shared/ImageUpload';
 
 const initValues = {
   email: '',
   password: '',
   username: '',
+  file: '',
 };
+
+const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
 const loginValidationSchema = {
   email: Yup.string().min(3, 'Too Short!').email().required('Email is required'),
@@ -24,6 +29,23 @@ const loginValidationSchema = {
 const signUpValidationSchema = {
   ...loginValidationSchema,
   username: Yup.string().min(3, 'Too Short!').required('Username is required'),
+  file: Yup.mixed()
+    .required('Image is required')
+    .test(
+      'fileSize',
+      'The file is too large',
+      (value) => {
+        return value && value.size <= 2000000;
+      },
+    )
+    .test(
+      'fileFormat',
+      'Unsupported Format',
+      (value) => {
+        return value && SUPPORTED_FORMATS.includes(value.type);
+      },
+    ),
+  // file: Yup.string().min(3, 'Too Short!').required('Username is required'),
 };
 
 const Auth = () => {
@@ -75,6 +97,7 @@ const Auth = () => {
   };
 
   const onSubmit = async (values, { resetForm }) => {
+    console.log(values);
     if(signingIn) {
       // handle sign in
       signIn(values, resetForm);
@@ -127,12 +150,13 @@ const Auth = () => {
               validationSchema={validationSchema}
               onSubmit={onSubmit}
             >
-              {({ isValid, touched, resetForm }) => (
+              {({
+                isValid, touched, resetForm, setFieldValue, setFieldTouched,
+              }) => (
                 <Form>
                   {!signingIn
                 && (
                 <>
-
                   <label htmlFor="username">Username</label>
                   <Field
                     type="text"
@@ -143,6 +167,11 @@ const Auth = () => {
                   <div className="error-message">
                     <ErrorMessage name="username" />
                   </div>
+                  <ImageUpload
+                    id="file"
+                    setFieldValue={setFieldValue}
+                    setFieldTouched={setFieldTouched}
+                  />
                 </>
                 )}
 

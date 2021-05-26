@@ -1,0 +1,22 @@
+.image-upload {
+  width: 200px;
+  height: 200px;
+  margin: 10px auto 0;
+  border: 1px solid $midGrey;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  p {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
