@@ -8,7 +8,7 @@ const UserCard = ({ username, image, places }) => {
       </div>
       <div className="user-card__right">
         <div className="user-card__name">{username}</div>
-        <div className="user-card__places">{places.length} {places.length > 0 ? 'places' : 'place'}</div>
+        <div className="user-card__places">{places.length} {places.length > 1 ? 'places' : 'place'}</div>
       </div>
     </div>
   );
