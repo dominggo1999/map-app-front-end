@@ -6,6 +6,10 @@ button {
   color: $primary;
   background: transparent;
 
+  &.no-margin-left {
+    margin-left: 0;
+  }
+
   &.btn-warning {
     background: $primary;
     border-color: $primary;

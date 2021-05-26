@@ -66,7 +66,7 @@ const AddPlace = () => {
 
         setLoading(false);
       } catch (err) {
-        setError(err);
+        setError(err.message);
         setLoading(false);
       }
     };

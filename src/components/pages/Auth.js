@@ -175,6 +175,7 @@ const Auth = () => {
 
                   <div className="buttons">
                     <Button
+                      className="no-margin-left"
                       type="button"
                       onClick={() => switchStatus(resetForm)}
                     >Switch To {signingIn ? 'Sign Up' : 'Sign In'}
