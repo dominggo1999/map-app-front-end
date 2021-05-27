@@ -1,7 +1,6 @@
 import Avatar from './Avatar';
 
 const UserCard = ({ username, image, places }) => {
-  console.log(image);
   return (
     <div className="user-card card">
       <div className="user-card__left">

@@ -67,9 +67,9 @@ const AddPlace = () => {
     formData.append('imageUrl', values.file);
 
     // eslint-disable-next-line no-restricted-syntax
-    for (const entry of formData.entries()) {
-      console.log(entry);
-    }
+    // for (const entry of formData.entries()) {
+    //   console.log(entry);
+    // }
 
     const uploadPlace = async () => {
       try {
@@ -84,7 +84,7 @@ const AddPlace = () => {
           throw new Error(responseData.message);
         }else{
           resetForm(initialValues);
-          history.push('/');
+          history.push(`/${user}/places`);
         }
 
         setLoading(false);
