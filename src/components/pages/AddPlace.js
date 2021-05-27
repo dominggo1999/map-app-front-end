@@ -8,6 +8,9 @@ import { useState } from 'react';
 import { getCoordinate } from '../../utils/getCoordinate';
 import FormButton from '../shared/FormButton';
 import ErrorModal from '../shared/ErrorModal';
+import ImageUpload from '../shared/ImageUpload';
+
+const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
 const AddPlace = () => {
   const user = useSelector((state) => state.auth.userID);
@@ -20,6 +23,7 @@ const AddPlace = () => {
     description: '',
     address: '',
     googleMapURL: '',
+    file: '',
   };
 
   const validationSchema = Yup.object({
@@ -27,6 +31,22 @@ const AddPlace = () => {
     description: Yup.string().min(3, 'Too Short!').required('Description is required'),
     address: Yup.string().min(3, 'Too Short!').required('Address is required'),
     googleMapURL: Yup.string().min(20).required('Please enter website'),
+    file: Yup.mixed()
+      .required('Image is required')
+      .test(
+        'fileSize',
+        'The file is too large',
+        (value) => {
+          return value && value.size <= 1000000;
+        },
+      )
+      .test(
+        'fileFormat',
+        'Unsupported Format',
+        (value) => {
+          return value && SUPPORTED_FORMATS.includes(value.type);
+        },
+      ),
   });
 
   const onSubmit = (values, { resetForm }) => {
@@ -34,24 +54,28 @@ const AddPlace = () => {
 
     const location = getCoordinate(values.googleMapURL);
 
+    console.log(location);
+
+    const formData = new FormData();
+
+    formData.append('title', values.title);
+    formData.append('description', values.description);
+    formData.append('address', values.address);
+    formData.append('location[lat]', location[0]);
+    formData.append('location[lng]', location[1]);
+    formData.append('creator', user);
+    formData.append('imageUrl', values.file);
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const entry of formData.entries()) {
+      console.log(entry);
+    }
+
     const uploadPlace = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/places/', {
           method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify({
-            title: values.title,
-            description: values.description,
-            address: values.address,
-            location: {
-              lat: location[0],
-              lng: location[1],
-            },
-            creator: user,
-            imageUrl: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.wmf.org%2Fsites%2Fdefault%2Ffiles%2Fshutterstock_547447339_-_copy.jpg&f=1&nofb=1',
-          }),
+          body: formData,
         });
 
         const responseData = await response.json();
@@ -104,7 +128,9 @@ const AddPlace = () => {
               validationSchema={validationSchema}
               onSubmit={onSubmit}
             >
-              {({ isValid, touched }) => (
+              {({
+                isValid, touched, setFieldValue, setFieldTouched,
+              }) => (
                 <Form>
                   <label htmlFor="title">Title</label>
                   <Field
@@ -130,6 +156,12 @@ const AddPlace = () => {
                   <div className="error-message">
                     <ErrorMessage name="description" />
                   </div>
+
+                  <ImageUpload
+                    id="file"
+                    setFieldValue={setFieldValue}
+                    setFieldTouched={setFieldTouched}
+                  />
 
                   <label htmlFor="address">Address</label>
                   <Field

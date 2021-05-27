@@ -1,10 +1,11 @@
 import Avatar from './Avatar';
 
 const UserCard = ({ username, image, places }) => {
+  console.log(image);
   return (
     <div className="user-card card">
       <div className="user-card__left">
-        <Avatar image={image} />
+        <Avatar image={`http://localhost:5000/${image}`} />
       </div>
       <div className="user-card__right">
         <div className="user-card__name">{username}</div>

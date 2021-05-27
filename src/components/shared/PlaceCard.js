@@ -94,7 +94,7 @@ const PlaceCard = ({
       <div className="place-card card">
         <div className="place-card__image-container">
           <img
-            src={imageUrl}
+            src={`http://localhost:5000/${imageUrl}`}
             alt={title}
             className="place-card__image"
           />

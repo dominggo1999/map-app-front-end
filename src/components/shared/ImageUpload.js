@@ -2,7 +2,9 @@ import { useRef, useState, useEffect } from 'react';
 import { Field, ErrorMessage } from 'formik';
 import Button from './Button';
 
-const ImageUpload = ({ id, setFieldValue, setFieldTouched }) => {
+const ImageUpload = ({
+  id, setFieldValue, setFieldTouched,
+}) => {
   const [previewURL, setPreviewURL] = useState();
   const [file, setFile] = useState();
   const filePickerRef = useRef();
@@ -29,7 +31,6 @@ const ImageUpload = ({ id, setFieldValue, setFieldTouched }) => {
 
   return (
     <>
-      <label htmlFor="username">Choose Photo Profile</label>
       <Field
         type="file"
         id={id}

@@ -5,7 +5,6 @@ import {
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { object, string, mixed } from 'yup';
 import FormButton from '../shared/FormButton';
 import Button from '../shared/Button';
 import { userLogin } from '../../redux/auth/authActions';
@@ -35,7 +34,7 @@ const signUpValidationSchema = {
       'fileSize',
       'The file is too large',
       (value) => {
-        return value && value.size <= 2000000;
+        return value && value.size <= 1000000;
       },
     )
     .test(
@@ -97,23 +96,32 @@ const Auth = () => {
   };
 
   const onSubmit = async (values, { resetForm }) => {
-    console.log(values);
     if(signingIn) {
       // handle sign in
       signIn(values, resetForm);
     } else {
       // handle sign up
+
+      const formData = new FormData(); // FormData cannot log into console
+      formData.append('username', values.username);
+      formData.append('email', values.email);
+      formData.append('password', values.password);
+      formData.append('imageUrl', values.file);
+
+      // eslint-disable-next-line no-restricted-syntax
+      // for (const entry of formData.entries()) {
+      //   console.log(entry);
+      // }
+
+      // console.log(formData.getAll('username'));
+      // console.log(formData.getAll('email'));
+      // console.log(formData.getAll('password'));
+      // console.log(formData.getAll('imageUrl'));
+
       try {
         const response = await fetch('http://localhost:5000/api/users/signUp', {
           method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: values.username,
-            email: values.email,
-            password: values.password,
-          }),
+          body: formData,
         });
         const responseData = await response.json();
 
@@ -153,7 +161,7 @@ const Auth = () => {
               {({
                 isValid, touched, resetForm, setFieldValue, setFieldTouched,
               }) => (
-                <Form>
+                <Form encType="multipart/form-data">
                   {!signingIn
                 && (
                 <>
